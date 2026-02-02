@@ -1,9 +1,7 @@
 package com.freelance.service;
-
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.List;
-
 import com.freelance.bean.Bid;
 import com.freelance.bean.Project;
 import com.freelance.bean.User;
@@ -14,9 +12,7 @@ import com.freelance.util.ActiveEngagementsExistException;
 import com.freelance.util.DBUtil;
 import com.freelance.util.ProjectAwardingException;
 import com.freelance.util.ValidationException;
-
 public class FreelanceService {
-
     public User viewUserDetails(String userID) {
         if (userID == null || userID.trim().isEmpty()) {
             return null;
@@ -165,7 +161,6 @@ public class FreelanceService {
         ProjectDAO projectDAO = new ProjectDAO();
         BidDAO bidDAO = new BidDAO();
         Connection con = null;
-
         try {
             if (projectID <= 0 || bidID <= 0) {
                 throw new ProjectAwardingException("projectID and bidID must be positive");
@@ -216,7 +211,6 @@ public class FreelanceService {
         }
     }
 
-
     public boolean markProjectCompleted(int projectID) {
         if (projectID <= 0) {
             throw new ValidationException("ProjectID must be positive");
@@ -227,7 +221,6 @@ public class FreelanceService {
         if (project == null || !"AWARDED".equalsIgnoreCase(project.getStatus())) {
             return false;
         }
-
         Connection con = null;
 
         try {
@@ -243,7 +236,6 @@ public class FreelanceService {
             }
             con.commit();
             return true;
-
         } catch (Exception e) {
             try {
                 if (con != null) {
@@ -274,7 +266,6 @@ public class FreelanceService {
         if (user == null) {
             return false; 
         }
-
         try {
             String role = user.getUserRole();
             if ("CLIENT".equalsIgnoreCase(role)) {
@@ -292,9 +283,7 @@ public class FreelanceService {
                     );
                 }
             }
-
             return userDAO.deleteUser(userID);
-
         } catch (ActiveEngagementsExistException e) {
             System.err.println(e.toString());
             return false;

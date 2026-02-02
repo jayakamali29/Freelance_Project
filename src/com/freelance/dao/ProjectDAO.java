@@ -16,13 +16,10 @@ public class ProjectDAO {
     	Project project = null;
         try {
         	Connection con=DBUtil.getDBConnection();
-        
-        
+     
         String sql = "SELECT *FROM PROJECT_TBL WHERE projectID = ?";
         PreparedStatement ps=con.prepareStatement(sql);
-
-            ps.setInt(1, projectID);
-
+    ps.setInt(1, projectID);
             ResultSet rs = ps.executeQuery();
                 if (rs.next()) {
                     project = new Project();
@@ -55,11 +52,9 @@ public class ProjectDAO {
                          "postedDate, status, awardedBidID " +
                          "FROM PROJECT_TBL";
             PreparedStatement ps=con.prepareStatement(sql);
-
-                ResultSet rs = ps.executeQuery();
+              ResultSet rs = ps.executeQuery();
                     if (rs.next()) {
-                    	project = new Project();
-                    	
+                    	project = new Project();	
                         project.setProjectID(rs.getInt("projectID"));
                         project.setClientUserID(rs.getString("clientUserID"));
                         project.setProjectTitle(rs.getString("projectTitle"));
@@ -71,7 +66,6 @@ public class ProjectDAO {
                         int bidId = rs.getInt("awardedBidID");
                         project.setAwardedBidID(rs.wasNull() ? null : bidId);
                         projects.add(project);
-                      
                     }
                 
             } catch (SQLException e) {
@@ -135,14 +129,12 @@ public class ProjectDAO {
 
         return newID;
     }
-
     public boolean insertProject(Project project)
     {
         try {
             Connection con = DBUtil.getDBConnection();
             String sql = "insert into PROJECT_TBL values(?,?,?,?,?,?,?,?,?)";
             PreparedStatement ps = con.prepareStatement(sql);
-
             ps.setInt(1, project.getProjectID());
             ps.setString(2, project.getClientUserID());
             ps.setString(3, project.getProjectTitle());
@@ -152,8 +144,7 @@ public class ProjectDAO {
             ps.setDate(7, project.getPostedDate());
             ps.setString(8, project.getStatus());
             ps.setObject(9, project.getAwardedBidID()); // handles NULL
-
-            int row = ps.executeUpdate();
+           int row = ps.executeUpdate();
 
             if (row > 0) {
                 return true;
@@ -164,7 +155,6 @@ public class ProjectDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
     public boolean updateProjectStatus(int projectID, String status)
@@ -176,9 +166,7 @@ public class ProjectDAO {
 
             ps.setString(1, status);
             ps.setInt(2, projectID);
-
-            int row = ps.executeUpdate();
-
+           int row = ps.executeUpdate();
             if (row > 0) {
                 return true;
             } else {
@@ -188,7 +176,6 @@ public class ProjectDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
     public boolean updateAwardedBid(int projectID, int bidID, String status)
@@ -201,19 +188,15 @@ public class ProjectDAO {
             ps.setInt(1, bidID);
             ps.setString(2, status);
             ps.setInt(3, projectID);
-
             int row = ps.executeUpdate();
-
             if (row > 0) {
                 return true;
             } else {
                 return false;
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
     public java.util.List<Project> findActiveProjectsByClient(String clientUserID)
@@ -228,12 +211,9 @@ public class ProjectDAO {
                          "FROM PROJECT_TBL " +
                          "WHERE clientUserID=? AND (status='OPEN' OR status='AWARDED')";
             PreparedStatement ps = con.prepareStatement(sql);
-
             ps.setString(1, clientUserID);
-
            ResultSet rs = ps.executeQuery();
-
-            while (rs.next()) {
+  while (rs.next()) {
                 Project project = new Project();
                 project.setProjectID(rs.getInt("projectID"));
                 project.setClientUserID(rs.getString("clientUserID"));
@@ -249,17 +229,9 @@ public class ProjectDAO {
 
                 projects.add(project);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return projects;
-    }
-
-
-
-
-    		
-    	
+    }   	
 }
