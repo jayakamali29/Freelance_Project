@@ -1,0 +1,95 @@
+DROP TABLE USERS_TBL CASCADE CONSTRAINT;
+DROP TABLE PROJECT_TBL CASCADE CONSTRAINT;
+DROP TABLE BID_TBL CASCADE CONSTRAINT;
+CREATE TABLE USERS_TBL (
+    userID  VARCHAR2(12)  CONSTRAINT pk_users PRIMARY KEY,
+
+    fullName VARCHAR2(150) NOT NULL,
+
+    email VARCHAR2(120) NOT NULL,
+
+    mobile VARCHAR2(20),
+
+    userRole  VARCHAR2(20)
+     CONSTRAINT chk_user_role
+     CHECK (userrole IN ('CLIENT', 'FREELANCER')),
+
+    primarySkillOrCompany VARCHAR2(150),
+
+    status  VARCHAR2(20)
+    CONSTRAINT chk_user_status
+    CHECK (status IN ('ACTIVE', 'INACTIVE'))
+);
+
+
+INSERT INTO USERS_TBL values('UCL1001', 'Rahul Mehta', 'rahul.mehta@company.com', '9876500001', 'CLIENT', 'Mehta Digital Solutions', 'ACTIVE');
+
+INSERT INTO USERS_TBL values('UCL1002', 'Priya Sharma', 'priya.sharma@financecorp.com', '9876500002', 'CLIENT', 'FinServe Pvt Ltd', 'ACTIVE');
+
+INSERT INTO USERS_TBL values('UFR2001', 'Arjun Nair', 'arjun.nair.dev@example.com', '9876500003', 'FREELANCER', 'Full Stack Java Developer', 'ACTIVE');
+
+INSERT INTO USERS_TBL values('UFR2002', 'Meera Iyer', 'meera.iyer.design@example.com', '9876500004', 'FREELANCER', 'UI/UX Designer', 'INACTIVE');
+
+select * from USERS_TBL;
+create table PROJECT_TBL (
+    projectID          number(10)
+        constraint pk_project_id primary key,
+
+    clientUserID       varchar2(12)
+        constraint fk_client_id
+        references users_tbl(userID),
+
+    projectTitle       varchar2(200) not null,
+
+    projectDescription varchar2(1000),
+
+    budgetMin          number(10,2) not null,
+
+    budgetMax          number(10,2) not null,
+
+    postedDate         date default sysdate,
+
+    status             varchar2(20)
+        constraint chk_project_status
+        check (status in ('OPEN', 'AWARDED', 'COMPLETED', 'CANCELLED')),
+
+    awardedBidID       number(10),
+
+    constraint chk_project_budget
+        check (budgetMax >= budgetMin)
+);
+INSERT INTO PROJECT_TBL VALUES(50001, 'UCL1001','Build REST API for Inventory System','Develop REST APIs for inventory tracking',20000.00, 40000.00,DATE '2025-03-10','OPEN', NULL);
+
+INSERT INTO PROJECT_TBL VALUES(50002, 'UCL1002','Design Marketing Landing Page','Create a responsive marketing landing page',8000.00, 15000.00,DATE '2025-03-08','AWARDED', 710002);
+select * from PROJECT_TBL;
+CREATE TABLE BID_TBL (
+    bidID NUMBER(10)
+        CONSTRAINT pk_bid PRIMARY KEY,
+
+    projectID NUMBER(10)
+        CONSTRAINT fk_bid_project
+        REFERENCES project_tbl(projectID),
+
+    freelancerUserID VARCHAR2(12)
+        CONSTRAINT fk_bid_freelancer
+        REFERENCES users_tbl(userID),
+
+    bidAmount NUMBER(10,2) NOT NULL,
+
+    deliveryDays NUMBER(5) NOT NULL,
+
+    coverLetter VARCHAR2(1000),
+
+    bidDate DATE DEFAULT SYSDATE,
+
+    bidStatus VARCHAR2(20)
+        CONSTRAINT chk_bid_status
+        CHECK (bidStatus IN
+              ('PENDING', 'ACCEPTED', 'REJECTED', 'WITHDRAWN'))
+);
+INSERT INTO BID_TBL VALUES(710001, 50001, 'UFR2001',25000.00, 15, NULL,DATE '2025-03-11', 'PENDING');
+
+INSERT INTO BID_TBL VALUES(710002, 50002, 'UFR2001',12000.00, 7, NULL, DATE '2025-03-09', 'ACCEPTED');
+
+INSERT INTO BID_TBL VALUES(710003, 50002, 'UFR2002',13000.00, 10, NULL,DATE '2025-03-09', 'REJECTED');
+SELECT * FROM BID_TBL;
