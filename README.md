@@ -68,11 +68,8 @@ Oracle Database
 
 
 This ensures:
-
 Maintainability
-
 Testability
-
 Clean separation of concerns
 
 📂 Project Structure
@@ -102,36 +99,26 @@ src/
 🛠 Technologies Used
 
 Java SE (JDK 21)
-
 JDBC
-
 Oracle Database
-
 DAO Pattern
-
 Layered Architecture
-
 Custom Exception Handling
-
 OOP Principles
 
 ⚙️ Setup & Configuration
 ✅ Requirements
 
 Java JDK 11+
-
 Eclipse / IntelliJ IDEA
 
 Oracle Database
-
 JDBC Driver (ojdbc11.jar) added to project
-
 SQL tables created as per project schema
 
 🔌 Database Configuration
 
 Update database credentials in:
-
 com.freelance.util.DBUtil.java
 
 
@@ -142,102 +129,28 @@ Username
 Password
 Driver class
 
-▶️ How to Run
-
-Clone the repository
-
-Import into Eclipse as Java Project
-
-Add ojdbc11.jar to Build Path
-
-Configure DB credentials in DBUtil.java
-
-Ensure database tables exist
-
-Run:
-
-FreelanceMain.java
-
-🔍 Core Modules Responsibility
-Bean Layer
-
-Represents data objects:
-
-User
-
-Project
-
-Bid
-
-DAO Layer
-
-Handles all database operations:
-
-Insert
-
-Update
-
-Fetch
-
-Validation queries
-
-Service Layer
-
-Implements:
-
-Business rules
-
-Input validation
-
-Exception triggering
-
-Process coordination
-
-Util Layer
-
 Provides:
 
 DB connectivity
-
 Custom exceptions
-
 Shared utilities
 
 🛡 Validation Rules (Examples)
 
 Invalid user/project data rejected
-
 Duplicate operations prevented
-
 Project awarding rules enforced
-
 Active engagement conflicts detected
-
 Bid validation checks applied
 
 🚀 Possible Enhancements
 
 Add REST API layer
-
 Add web interface (Servlet / Spring Boot)
-
 Add authentication & roles
-
 Add transaction management
-
 Add logging framework
-
 Add unit tests (JUnit)
-
-⚠️ Current Limitations
-
-Console-based interface
-
-Single-user execution model
-
-No UI dashboard
-
-Manual DB schema setup required
 
 👨‍💻 Author
 
